@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import { Loader } from 'semantic-ui-react'
+import { Grid, Image, Loader } from 'semantic-ui-react'
+
 import fetch from 'node-fetch'
 import {
   ContactCard
@@ -11,11 +12,31 @@ function randomInt (min, max) {
   return min + Math.floor((max - min) * Math.random())
 }
 
-const listContacts = (contacts) => {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
-      {
-        contacts.map((contact, index) => (
+const listContacts = (contacts) => (
+  <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
+    {
+      contacts.map((contact, index) => (
+        <ContactCard
+          key={`Contact-${index}`}
+          avatar={contact.picture.large}
+          name={contact.name.first + ' ' + contact.name.last}
+          email={contact.email}
+          age={contact.dob.age}
+        />
+      ))
+    }
+  </div>
+)
+
+const listContactsInGrid = (contacts) => (
+  <Grid columns={3} divided>
+    {
+      contacts.map((contact, index) => (
+        <Grid.Column
+          textAlign='center'
+          verticalAlign='middle'
+          key={`Contact-${index}`}
+        >
           <ContactCard
             key={`Contact-${index}`}
             avatar={contact.picture.large}
@@ -23,15 +44,16 @@ const listContacts = (contacts) => {
             email={contact.email}
             age={contact.dob.age}
           />
-        ))
-      }
-    </div>
-  )
-}
+        </Grid.Column>
+
+      ))
+    }
+  </Grid>
+)
 
 export default () => {
   const [contacts, setContacts] = useState([])
-  const [countResults, setCountResults] = useState(3)
+  const [countResults, setCountResults] = useState(10)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -49,12 +71,17 @@ export default () => {
 
   return (
     <>
-      {
+      {/* {
         loading ? <Loader active size='massive' />
           : listContacts(contacts)
+      } */}
+
+      {
+        loading ? <Loader active size='massive' />
+          : listContactsInGrid(contacts)
       }
 
-      <button onClick={() => setCountResults(randomInt(10, 30))}>
+      <button style={{ marginTop: '20px' }} onClick={() => setCountResults(randomInt(20, 50))}>
           Clique aqui para randomizar uma quantidade de resultados aleatória
       </button>
     </>
