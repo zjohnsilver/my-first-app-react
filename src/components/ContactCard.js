@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 export const ContactCard = (props = {}) => {
-  const { avatar, name, email, age } = props
+  const { avatar, name, email, age, children } = props
   const [showAge, setShowAge] = useState(false)
 
   return (
@@ -15,6 +15,7 @@ export const ContactCard = (props = {}) => {
         </button>
         {showAge && <p>Age: {age}</p>}
       </div>
+      {children}
     </div>
   )
 }

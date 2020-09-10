@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import { Grid, Image, Loader } from 'semantic-ui-react'
+import { Grid, Loader } from 'semantic-ui-react'
 
 import fetch from 'node-fetch'
 import {
@@ -11,22 +11,6 @@ import './styles.css'
 function randomInt (min, max) {
   return min + Math.floor((max - min) * Math.random())
 }
-
-const listContacts = (contacts) => (
-  <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
-    {
-      contacts.map((contact, index) => (
-        <ContactCard
-          key={`Contact-${index}`}
-          avatar={contact.picture.large}
-          name={contact.name.first + ' ' + contact.name.last}
-          email={contact.email}
-          age={contact.dob.age}
-        />
-      ))
-    }
-  </div>
-)
 
 const listContactsInGrid = (contacts) => (
   <Grid columns={3} divided>
@@ -43,7 +27,9 @@ const listContactsInGrid = (contacts) => (
             name={contact.name.first + ' ' + contact.name.last}
             email={contact.email}
             age={contact.dob.age}
-          />
+          >
+            <span>children</span>
+          </ContactCard>
         </Grid.Column>
 
       ))
