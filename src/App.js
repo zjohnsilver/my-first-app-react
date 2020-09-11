@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import { Grid, Loader } from 'semantic-ui-react'
 
@@ -12,8 +12,8 @@ import './styles.css'
 //   return min + Math.floor((max - min) * Math.random())
 // }
 
-const listContactsInGrid = (contacts) => (
-  <Grid columns={3} divided>
+const listContactsInGrid = (contacts, numberColumns) => (
+  <Grid columns={numberColumns} divided>
     {
       contacts.map((contact, index) => (
         <Grid.Column
@@ -27,9 +27,7 @@ const listContactsInGrid = (contacts) => (
             name={contact.name.first + ' ' + contact.name.last}
             email={contact.email}
             age={contact.dob.age}
-          >
-            <span>children</span>
-          </ContactCard>
+          />
         </Grid.Column>
 
       ))
@@ -41,6 +39,8 @@ export default () => {
   const [contacts, setContacts] = useState([])
   const [countResults, setCountResults] = useState(10)
   const [loading, setLoading] = useState(false)
+  const [numberColumns, setNumberColumns] = useState(4)
+  const numberColumnsRef = useRef(4)
 
   useEffect(() => {
     setLoading(true)
@@ -57,18 +57,24 @@ export default () => {
 
   return (
     <>
-      {/* {
-        loading ? <Loader active size='massive' />
-          : listContacts(contacts)
-      } */}
 
       {
         loading ? <Loader active size='massive' />
-          : listContactsInGrid(contacts)
+          : listContactsInGrid(contacts, numberColumns)
       }
 
-      <button style={{ marginTop: '20px' }} onClick={() => setCountResults(previousState => ++previousState)}>
-          Clique aqui para randomizar uma quantidade de resultados aleatória
+      <button class='ui button' style={{ margin: '20px' }} onClick={() => setCountResults(previousState => ++previousState)}>
+          Add one more card
+      </button>
+
+      <br />
+
+      <div class='ui input focus' style={{ margin: '20px' }}>
+        <input type='text' placeholder={numberColumns} onChange={event => { numberColumnsRef.current = event.target.value }} />
+      </div>
+
+      <button class='ui button' style={{ margin: '20px' }} onClick={() => setNumberColumns(numberColumnsRef.current)}>
+          Update number of columns
       </button>
     </>
   )
