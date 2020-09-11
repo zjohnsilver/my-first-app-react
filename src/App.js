@@ -8,9 +8,9 @@ import {
 } from './components'
 import './styles.css'
 
-function randomInt (min, max) {
-  return min + Math.floor((max - min) * Math.random())
-}
+// function randomInt (min, max) {
+//   return min + Math.floor((max - min) * Math.random())
+// }
 
 const listContactsInGrid = (contacts) => (
   <Grid columns={3} divided>
@@ -67,7 +67,7 @@ export default () => {
           : listContactsInGrid(contacts)
       }
 
-      <button style={{ marginTop: '20px' }} onClick={() => setCountResults(randomInt(20, 50))}>
+      <button style={{ marginTop: '20px' }} onClick={() => setCountResults(previousState => ++previousState)}>
           Clique aqui para randomizar uma quantidade de resultados aleatória
       </button>
     </>
